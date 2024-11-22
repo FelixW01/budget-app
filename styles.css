@@ -1,1 +1,42 @@
-/*# sourceMappingURL=styles.css.map */
+h1 {
+  color: #243447;
+  padding-left: 2rem;
+}
+
+.chart-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  max-height: 30vh;
+  padding: 2rem 0;
+}
+
+body {
+  background: linear-gradient(to right, #e7ebf0, #f1f3f5);
+  min-height: 100vh;
+  margin: 0;
+}
+
+.content-section {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top: 1px solid #ccc;
+  padding: 20px;
+  background-color: #e3e7ec;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 40vh;
+}
+
+.content-div,
+.income-div,
+.expenses-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}/*# sourceMappingURL=styles.css.map */

@@ -1,0 +1,45 @@
+$primary-color: #243447;
+
+@mixin flex($flex-direction, $alignment) {
+  display: flex;
+  justify-content: $alignment;
+  align-items: $alignment;
+  flex-direction: $flex-direction;
+}
+@mixin gradient($color1, $color2) {
+  background: linear-gradient(to right, $color1, $color2);
+}
+
+h1 {
+  color: $primary-color;
+  padding-left: 2rem;
+}
+
+.chart-div {
+  @include flex(column, center);
+  max-height: 30vh;
+  padding: 2rem 0;
+}
+
+body {
+  @include gradient(#e7ebf0, #f1f3f5);
+  min-height: 100vh;
+  margin: 0;
+}
+
+.content-section {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top: 1px solid #ccc;
+  padding: 20px;
+  background-color: #e3e7ec;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  @include flex(column, center);
+  min-height: 40vh;
+}
+
+.content-div,
+.income-div,
+.expenses-div {
+  @include flex(column, center);
+}
