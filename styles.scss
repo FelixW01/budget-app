@@ -1,4 +1,7 @@
-$primary-color: #243447;
+$primary-color: #333;
+$income-green: #4caf50;
+$expense-red: rgb(255, 69, 58);
+$text-white: #f8f9fa;
 
 @mixin flex($flex-direction, $alignment) {
   display: flex;
@@ -6,25 +9,57 @@ $primary-color: #243447;
   align-items: $alignment;
   flex-direction: $flex-direction;
 }
+
 @mixin gradient($color1, $color2) {
   background: linear-gradient(to right, $color1, $color2);
 }
 
-h1 {
-  color: $primary-color;
-  padding-left: 2rem;
+@mixin media-query($size) {
+  @if $size == "small" {
+    @media (min-width: 600px) {
+      @content;
+    }
+  } @else if $size == "medium" {
+    @media (min-width: 1024px) {
+      @content;
+    }
+  } @else if $size == "large" {
+    @media (min-width: 1300px) {
+      @content;
+    }
+  }
+}
+
+nav {
+  margin-bottom: 3rem;
 }
 
 .chart-div {
   @include flex(column, center);
-  max-height: 30vh;
+  max-height: 40vh;
   padding: 2rem 0;
 }
 
 body {
   @include gradient(#e7ebf0, #f1f3f5);
+  @include flex(column, space-between);
+  align-items: center;
   min-height: 100vh;
   margin: 0;
+  color: $primary-color;
+  .main-container {
+    width: 100%;
+  }
+
+  h1 {
+    color: $primary-color;
+    margin: 0;
+    padding: 2rem;
+    font-size: 3rem;
+    text-align: center;
+    background-color: $primary-color;
+    color: $text-white;
+  }
 }
 
 .content-section {
@@ -35,16 +70,121 @@ body {
   background-color: #e3e7ec;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   @include flex(column, center);
-  min-height: 40vh;
+  flex-grow: 1;
+  min-height: 100%;
+}
+
+.content-section {
+  @include flex(column, start);
+  width: 100%;
+  margin-bottom: 3rem;
+
+  h2 {
+    margin: 2rem 0;
+    font-size: 2.5rem;
+  }
 }
 
 .content-div,
 .income-div,
 .expenses-div {
-  @include flex(column, center);
+  @include flex(column, start);
+  width: 100%;
+
+  #income-card-container,
+  #expense-card-container {
+    @include flex(column, center);
+    width: 100%;
+    margin-top: 2rem;
+
+    .income-card-div,
+    .expense-card-div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+      background-color: #fff;
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+      margin-bottom: 1rem;
+      width: 100%;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      p {
+        margin: 0;
+        font-size: 1.15rem;
+      }
+
+      .description {
+        flex: 1;
+      }
+
+      .income-value {
+        color: $income-green;
+      }
+      .expense-value {
+        color: $expense-red;
+      }
+    }
+  }
 }
 
-.income-card-div,
-.expense-card-div {
-  @include flex(row, start);
+#footer-container {
+  @include flex(row, center);
+  width: 100%;
+  min-height: 10vh;
+  padding: 0;
+  background-color: $primary-color;
+  color: $text-white;
+
+  .copyright-p {
+    text-align: center;
+  }
+}
+
+#modal-title {
+  padding-left: 0.7rem;
+}
+
+@include media-query("small") {
+  body {
+    .main-container {
+      width: 70%;
+    }
+  }
+
+  .chart-div {
+    height: 50vh;
+    #myChart {
+      width: 310px !important;
+    }
+  }
+}
+@include media-query("medium") {
+  body {
+    .main-container {
+      width: 50%;
+    }
+  }
+  #modal1 {
+    max-width: 60%;
+  }
+  #myChart {
+    width: 330px !important;
+  }
+}
+
+@include media-query("large") {
+  #modal1 {
+    max-width: 40%;
+  }
+  #myChart {
+    width: 350px !important;
+  }
 }

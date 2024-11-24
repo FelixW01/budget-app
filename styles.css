@@ -1,6 +1,5 @@
-h1 {
-  color: #243447;
-  padding-left: 2rem;
+nav {
+  margin-bottom: 3rem;
 }
 
 .chart-div {
@@ -8,14 +7,32 @@ h1 {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  max-height: 30vh;
+  max-height: 40vh;
   padding: 2rem 0;
 }
 
 body {
   background: linear-gradient(to right, #e7ebf0, #f1f3f5);
+  display: flex;
+  justify-content: space-between;
+  align-items: space-between;
+  flex-direction: column;
+  align-items: center;
   min-height: 100vh;
   margin: 0;
+  color: #333;
+}
+body .main-container {
+  width: 100%;
+}
+body h1 {
+  color: #333;
+  margin: 0;
+  padding: 2rem;
+  font-size: 3rem;
+  text-align: center;
+  background-color: #333;
+  color: #f8f9fa;
 }
 
 .content-section {
@@ -29,22 +46,188 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  min-height: 40vh;
+  flex-grow: 1;
+  min-height: 100%;
+}
+
+.content-section {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 3rem;
+}
+.content-section h2 {
+  margin: 2rem 0;
+  font-size: 2.5rem;
 }
 
 .content-div,
 .income-div,
 .expenses-div {
   display: flex;
+  justify-content: start;
+  align-items: start;
+  flex-direction: column;
+  width: 100%;
+}
+.content-div #income-card-container,
+.content-div #expense-card-container,
+.income-div #income-card-container,
+.income-div #expense-card-container,
+.expenses-div #income-card-container,
+.expenses-div #expense-card-container {
+  display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  width: 100%;
+  margin-top: 2rem;
+}
+.content-div #income-card-container .income-card-div,
+.content-div #income-card-container .expense-card-div,
+.content-div #expense-card-container .income-card-div,
+.content-div #expense-card-container .expense-card-div,
+.income-div #income-card-container .income-card-div,
+.income-div #income-card-container .expense-card-div,
+.income-div #expense-card-container .income-card-div,
+.income-div #expense-card-container .expense-card-div,
+.expenses-div #income-card-container .income-card-div,
+.expenses-div #income-card-container .expense-card-div,
+.expenses-div #expense-card-container .income-card-div,
+.expenses-div #expense-card-container .expense-card-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  background-color: #fff;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  width: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.content-div #income-card-container .income-card-div:hover,
+.content-div #income-card-container .expense-card-div:hover,
+.content-div #expense-card-container .income-card-div:hover,
+.content-div #expense-card-container .expense-card-div:hover,
+.income-div #income-card-container .income-card-div:hover,
+.income-div #income-card-container .expense-card-div:hover,
+.income-div #expense-card-container .income-card-div:hover,
+.income-div #expense-card-container .expense-card-div:hover,
+.expenses-div #income-card-container .income-card-div:hover,
+.expenses-div #income-card-container .expense-card-div:hover,
+.expenses-div #expense-card-container .income-card-div:hover,
+.expenses-div #expense-card-container .expense-card-div:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+.content-div #income-card-container .income-card-div p,
+.content-div #income-card-container .expense-card-div p,
+.content-div #expense-card-container .income-card-div p,
+.content-div #expense-card-container .expense-card-div p,
+.income-div #income-card-container .income-card-div p,
+.income-div #income-card-container .expense-card-div p,
+.income-div #expense-card-container .income-card-div p,
+.income-div #expense-card-container .expense-card-div p,
+.expenses-div #income-card-container .income-card-div p,
+.expenses-div #income-card-container .expense-card-div p,
+.expenses-div #expense-card-container .income-card-div p,
+.expenses-div #expense-card-container .expense-card-div p {
+  margin: 0;
+  font-size: 1.15rem;
+}
+.content-div #income-card-container .income-card-div .description,
+.content-div #income-card-container .expense-card-div .description,
+.content-div #expense-card-container .income-card-div .description,
+.content-div #expense-card-container .expense-card-div .description,
+.income-div #income-card-container .income-card-div .description,
+.income-div #income-card-container .expense-card-div .description,
+.income-div #expense-card-container .income-card-div .description,
+.income-div #expense-card-container .expense-card-div .description,
+.expenses-div #income-card-container .income-card-div .description,
+.expenses-div #income-card-container .expense-card-div .description,
+.expenses-div #expense-card-container .income-card-div .description,
+.expenses-div #expense-card-container .expense-card-div .description {
+  flex: 1;
+}
+.content-div #income-card-container .income-card-div .income-value,
+.content-div #income-card-container .expense-card-div .income-value,
+.content-div #expense-card-container .income-card-div .income-value,
+.content-div #expense-card-container .expense-card-div .income-value,
+.income-div #income-card-container .income-card-div .income-value,
+.income-div #income-card-container .expense-card-div .income-value,
+.income-div #expense-card-container .income-card-div .income-value,
+.income-div #expense-card-container .expense-card-div .income-value,
+.expenses-div #income-card-container .income-card-div .income-value,
+.expenses-div #income-card-container .expense-card-div .income-value,
+.expenses-div #expense-card-container .income-card-div .income-value,
+.expenses-div #expense-card-container .expense-card-div .income-value {
+  color: #4caf50;
+}
+.content-div #income-card-container .income-card-div .expense-value,
+.content-div #income-card-container .expense-card-div .expense-value,
+.content-div #expense-card-container .income-card-div .expense-value,
+.content-div #expense-card-container .expense-card-div .expense-value,
+.income-div #income-card-container .income-card-div .expense-value,
+.income-div #income-card-container .expense-card-div .expense-value,
+.income-div #expense-card-container .income-card-div .expense-value,
+.income-div #expense-card-container .expense-card-div .expense-value,
+.expenses-div #income-card-container .income-card-div .expense-value,
+.expenses-div #income-card-container .expense-card-div .expense-value,
+.expenses-div #expense-card-container .income-card-div .expense-value,
+.expenses-div #expense-card-container .expense-card-div .expense-value {
+  color: rgb(255, 69, 58);
 }
 
-.income-card-div,
-.expense-card-div {
+#footer-container {
   display: flex;
-  justify-content: start;
-  align-items: start;
+  justify-content: center;
+  align-items: center;
   flex-direction: row;
+  width: 100%;
+  min-height: 10vh;
+  padding: 0;
+  background-color: #333;
+  color: #f8f9fa;
+}
+#footer-container .copyright-p {
+  text-align: center;
+}
+
+#modal-title {
+  padding-left: 0.7rem;
+}
+
+@media (min-width: 600px) {
+  body .main-container {
+    width: 70%;
+  }
+  .chart-div {
+    height: 50vh;
+  }
+  .chart-div #myChart {
+    width: 310px !important;
+  }
+}
+@media (min-width: 1024px) {
+  body .main-container {
+    width: 50%;
+  }
+  #modal1 {
+    max-width: 60%;
+  }
+  #myChart {
+    width: 330px !important;
+  }
+}
+@media (min-width: 1300px) {
+  #modal1 {
+    max-width: 40%;
+  }
+  #myChart {
+    width: 350px !important;
+  }
 }/*# sourceMappingURL=styles.css.map */

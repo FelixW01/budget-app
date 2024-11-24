@@ -11,9 +11,11 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <nav>
+      <h1>BudgetWise</h1>
+    </nav>
     <main class="main-container">
       <section class="hero-section">
-        <h1>BudgetWise</h1>
         <div class="chart-div">
           <canvas id="myChart"></canvas>
         </div>
@@ -22,7 +24,7 @@
         <div class="content-div">
           <!-- Modal Trigger -->
           <div class="income-div">
-            <h3>Income</h3>
+            <h2>Income</h2>
               <a class="waves-effect waves-light btn modal-trigger" data-button="Income" href="#modal1"
                 >Add Income</a
               >
@@ -30,7 +32,7 @@
               </div>
           </div>
           <div class="expenses-div">
-            <h3>Expenses</h3>
+            <h2>Expenses</h2>
               <a class="waves-effect waves-light btn modal-trigger" data-button="Expenses" href="#modal1"
               >Add Expenses</a
               >
@@ -69,6 +71,14 @@
       </form>
       </section>
     </main>
+    <footer class="page-footer" id="footer-container">
+      <div class="container" id="footer-div">
+        <p class="copyright-p">
+          ©<span id="current-year"></span> BudgetWise, All rights
+          reserved.
+        </p>
+      </div>
+    </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>

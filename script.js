@@ -105,7 +105,6 @@ class Budget {
     const totalExpenses = this.expenses.calculateTotal();
     return totalIncome - totalExpenses;
    }
-
    displayFields() {
     this.income.display('Income')
     this.expenses.display('Expenses')
@@ -118,7 +117,7 @@ class Budget {
   let totalIncome = myBudget.calculateIncome();
   let remainingBudget = myBudget.calculateRemainingBudget();
   const data = {
-  labels: ['Income', 'Expenses', 'Remaining Budget'],
+  labels: ['Income', 'Expenses', 'Balance'],
   datasets: [{
     label: 'Budget',
     data: [totalIncome, totalExpenses, remainingBudget],
@@ -130,7 +129,6 @@ class Budget {
     hoverOffset: 4
   }]
 };
-
 const options = {
   plugins: {
     tooltip: {
@@ -151,8 +149,6 @@ const options = {
     enabled: true
   }
 };
-
-// const formModal = document.getElementsByClassName('.modal')
 
   function handleSubmit(event) {
     event.preventDefault()
@@ -196,15 +192,17 @@ const options = {
       incomeItems.forEach((income) => {
       incomeDiv.innerHTML += 
         `<div class="income-card-div">
-         <p>${income.description}</p> <p>$${income.value}</p>
+         <p>${income.description}</p> <p class="income-value">+$${income.value}</p>
          </div>`
-    });
+    }
+    
+  );
     } else if (field === 'Expenses'){
       expensesDiv.innerHTML = '';
       expenseItems.forEach((expense) => {
       expensesDiv.innerHTML += 
         `<div class="expense-card-div">
-         <p>${expense.description}</p> <p>$${expense.value}</p>
+         <p>${expense.description}</p> <p class="expense-value">-$${expense.value}</p>
          </div>`
     });
     }
