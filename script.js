@@ -193,17 +193,22 @@ const options = {
     if (field === 'Income') {
       incomeDiv.innerHTML = '';
       incomeItems.forEach((income) => {
+      const capitalizedIncome = income.description ? income.description.charAt(0).toUpperCase() + income.description.slice(1)
+      : ''
       incomeDiv.innerHTML += 
         `<div class="income-card-div">
-         <p>${income.description}</p> <p class="income-value">+$${income.value}</p>
+         <p>${capitalizedIncome}</p> <p class="income-value">+$${income.value}</p>
          </div>`
       });
     } else if (field === 'Expenses'){
       expensesDiv.innerHTML = '';
       expenseItems.forEach((expense) => {
+        const capitalizedExpense = expense.description
+            ? expense.description.charAt(0).toUpperCase() + expense.description.slice(1)
+            : '';
       expensesDiv.innerHTML += 
         `<div class="expense-card-div">
-         <p>${expense.description}</p> <p class="expense-value">-$${expense.value}</p>
+         <p>${capitalizedExpense}</p> <p class="expense-value">-$${expense.value}</p>
          </div>`
     });
     }
