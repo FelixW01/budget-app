@@ -1,9 +1,8 @@
 let userDescription = document.getElementById('description');
 let userValue = document.getElementById('value');
 const titleEl = document.getElementById('modal-title');
-let incomeArray = []
-let expenseArray = []
 let field = '';
+const formModal = document.getElementById('form-container');
 
 // Materialize logic for modal
 document.addEventListener('DOMContentLoaded', function(event) {
@@ -29,7 +28,7 @@ function addButtonListeners() {
 }
 
 // Renders $ at the start of value and only lets use to input numbers
-function updateInputValue(clickedButton) {
+function updateInputValue() {
   let inputValue = userValue.value;
   // Any character that's not a digit checked from the regex, replace it with an empty string
   let numericValue = inputValue.replace(/[^0-9]/g, '');
@@ -94,6 +93,12 @@ class Budget {
     addExpenses(description, value) {
     this.expenses.addItem(description, value)
     }
+    calculateIncome() {
+      return this.income.calculateTotal();
+    }
+    calculateExpenses() {
+      return this.expenses.calculateTotal();
+    }
     // Calculates the remaining budget of both income and expenses
     calculateRemainingBudget() {
     const totalIncome = this.income.calculateTotal();
@@ -109,8 +114,48 @@ class Budget {
 }
 
   const myBudget = new Budget()
+  let totalExpenses = myBudget.calculateExpenses()
+  let totalIncome = myBudget.calculateIncome();
+  let remainingBudget = myBudget.calculateRemainingBudget();
+  const data = {
+  labels: ['Income', 'Expenses', 'Remaining Budget'],
+  datasets: [{
+    label: 'Budget',
+    data: [totalIncome, totalExpenses, remainingBudget],
+    backgroundColor: [
+      'rgb(76, 175, 80)',
+      'rgb(239, 108, 108)',
+      'rgb(66, 133, 244)'
+    ],
+    hoverOffset: 4
+  }]
+};
 
-  function handleSubmit() {
+const options = {
+  plugins: {
+    tooltip: {
+      callbacks: {
+        label: function(context) {
+          const value = context.raw;
+          if (value < 0) {
+            // if value is negative, rewrite the number to -$100 format, math.abs just turns number into positive
+            return `-$${Math.abs(value).toString()}`;
+          }
+          // Adds a $ sign
+          return `$${value.toString()}`;
+        }
+      }
+    }
+  },
+  accessibility: {
+    enabled: true
+  }
+};
+
+// const formModal = document.getElementsByClassName('.modal')
+
+  function handleSubmit(event) {
+    event.preventDefault()
     const description = userDescription.value.trim();
     const value = userValue.value.trim();
 
@@ -121,36 +166,66 @@ class Budget {
 
     if (field ==='Income') {
       myBudget.addIncome(description, value);
-      myBudget.displayFields()
     } else if (field === "Expenses") {
       myBudget.addExpenses(description, value)
-      myBudget.displayFields()
     }
     userDescription.value = '';
     userValue.value = '$';
+
+    createCards(field)
+    updateChart()
+
+    // Get instance of Modal, if it already exists then close after submitting.
+    const modalInstance = M.Modal.getInstance(document.getElementById('modal1'));
+    if (modalInstance) {
+    modalInstance.close();
+  } else {
+    console.error('Modal instance not found');
+  }
   }
 
+  function createCards(field) {
+    const incomeDiv = document.getElementById('income-card-container');
+    const expensesDiv = document.getElementById('expense-card-container');
+    const incomeItems = myBudget.income.items
+    const expenseItems = myBudget.expenses.items
+  
 
+    if (field === 'Income') {
+      incomeDiv.innerHTML = '';
+      incomeItems.forEach((income) => {
+      incomeDiv.innerHTML += 
+        `<div class="income-card-div">
+         <p>${income.description}</p> <p>$${income.value}</p>
+         </div>`
+    });
+    } else if (field === 'Expenses'){
+      expensesDiv.innerHTML = '';
+      expenseItems.forEach((expense) => {
+      expensesDiv.innerHTML += 
+        `<div class="expense-card-div">
+         <p>${expense.description}</p> <p>$${expense.value}</p>
+         </div>`
+    });
+    }
+  }
 
+  function updateChart() {
+  const totalIncome = myBudget.calculateIncome();
+  const totalExpenses = myBudget.calculateExpenses();
+  const remainingBudget = myBudget.calculateRemainingBudget();
+  let chartDataset = budgetChart.data.datasets[0]
+
+  chartDataset.data = [totalIncome, totalExpenses, remainingBudget];
+  chartDataset.backgroundColor[2] = remainingBudget < 0 ? 'rgb(255, 69, 58)' : 'rgb(66, 133, 244)';
+  budgetChart.update();
+}
 
   // Chart.js logic
   const ctx = document.getElementById('myChart');
 
-  new Chart(ctx, {
+  let budgetChart = new Chart(ctx, {
     type: 'doughnut',
-    data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-      datasets: [{
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
+    data: data,
+    options: options
   });

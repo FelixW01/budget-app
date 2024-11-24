@@ -39,4 +39,12 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+.income-card-div,
+.expense-card-div {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  flex-direction: row;
 }/*# sourceMappingURL=styles.css.map */

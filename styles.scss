@@ -43,3 +43,8 @@ body {
 .expenses-div {
   @include flex(column, center);
 }
+
+.income-card-div,
+.expense-card-div {
+  @include flex(row, start);
+}

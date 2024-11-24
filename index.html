@@ -13,7 +13,7 @@
   <body>
     <main class="main-container">
       <section class="hero-section">
-        <h1>Dashboard</h1>
+        <h1>BudgetWise</h1>
         <div class="chart-div">
           <canvas id="myChart"></canvas>
         </div>
@@ -26,15 +26,19 @@
               <a class="waves-effect waves-light btn modal-trigger" data-button="Income" href="#modal1"
                 >Add Income</a
               >
+              <div id="income-card-container">
+              </div>
           </div>
           <div class="expenses-div">
             <h3>Expenses</h3>
               <a class="waves-effect waves-light btn modal-trigger" data-button="Expenses" href="#modal1"
               >Add Expenses</a
               >
+              <div id="expense-card-container">
+              </div>
           </div>
           <!-- Modal Structure -->
-        <form class="col s12" id="form-container" onsubmit="handleSubmit()">
+        <form class="col s12" id="form-container" onsubmit="handleSubmit(event)">
           <div id="modal1" class="modal">
             <div class="modal-content">
               <div class="row">
