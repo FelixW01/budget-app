@@ -38,8 +38,12 @@ To run locally, follow these steps:
     ```bash
     cd budget-wise
     ```
+3. Open file in your IDE:
+    ```bash
+    code .
+    ```
     
-3. To run the application, open via live server in your web browser.
+4. To run the application, open via live server/localhost in your web browser.
 
 
 ## Contributing
