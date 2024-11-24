@@ -145,11 +145,13 @@ const options = {
       }
     }
   },
+  // I did not want the label to show, this still enables the labels to be read by a screenreader for accessibility
   accessibility: {
     enabled: true
   }
 };
 
+// Handles submission of modal
   function handleSubmit(event) {
     event.preventDefault()
     const description = userDescription.value.trim();
@@ -180,13 +182,14 @@ const options = {
   }
   }
 
+  // This function creates the cards based on which button was clicked to open the modal
   function createCards(field) {
     const incomeDiv = document.getElementById('income-card-container');
     const expensesDiv = document.getElementById('expense-card-container');
     const incomeItems = myBudget.income.items
     const expenseItems = myBudget.expenses.items
   
-
+    // Render income and expenses to html
     if (field === 'Income') {
       incomeDiv.innerHTML = '';
       incomeItems.forEach((income) => {
@@ -194,9 +197,7 @@ const options = {
         `<div class="income-card-div">
          <p>${income.description}</p> <p class="income-value">+$${income.value}</p>
          </div>`
-    }
-    
-  );
+      });
     } else if (field === 'Expenses'){
       expensesDiv.innerHTML = '';
       expenseItems.forEach((expense) => {
@@ -208,14 +209,17 @@ const options = {
     }
   }
 
+  // Updates chart
   function updateChart() {
   const totalIncome = myBudget.calculateIncome();
   const totalExpenses = myBudget.calculateExpenses();
   const remainingBudget = myBudget.calculateRemainingBudget();
   let chartDataset = budgetChart.data.datasets[0]
 
+  // sets data to updated values
   chartDataset.data = [totalIncome, totalExpenses, remainingBudget];
   chartDataset.backgroundColor[2] = remainingBudget < 0 ? 'rgb(255, 69, 58)' : 'rgb(66, 133, 244)';
+  // Method from Chart.JS
   budgetChart.update();
 }
 

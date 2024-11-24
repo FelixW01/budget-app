@@ -1,6 +1,6 @@
 $primary-color: #333;
 $income-green: #4caf50;
-$expense-red: rgb(255, 69, 58);
+$expense-red: rgb(239, 108, 108);
 $text-white: #f8f9fa;
 
 @mixin flex($flex-direction, $alignment) {
@@ -69,13 +69,9 @@ body {
   padding: 20px;
   background-color: #e3e7ec;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  @include flex(column, center);
+  @include flex(column, start);
   flex-grow: 1;
   min-height: 100%;
-}
-
-.content-section {
-  @include flex(column, start);
   width: 100%;
   margin-bottom: 3rem;
 
@@ -90,7 +86,14 @@ body {
 .expenses-div {
   @include flex(column, start);
   width: 100%;
-
+  #income-button {
+    color: white;
+    background-color: $income-green;
+  }
+  #expense-button {
+    color: white;
+    background-color: $expense-red;
+  }
   #income-card-container,
   #expense-card-container {
     @include flex(column, center);
