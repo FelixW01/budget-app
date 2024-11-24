@@ -3,6 +3,8 @@ let userValue = document.getElementById('value');
 const titleEl = document.getElementById('modal-title');
 let field = '';
 const formModal = document.getElementById('form-container');
+const incomeDiv = document.getElementById('income-card-container');
+const expensesDiv = document.getElementById('expense-card-container');
 
 // Materialize logic for modal
 document.addEventListener('DOMContentLoaded', function(event) {
@@ -55,8 +57,10 @@ class FieldItem {
     const parsedValue = parseFloat(value.replace('$', '')) || 0;
     this.items.push({ description, value: parsedValue });
   }
-  calculateTotal() {
-    return this.items.reduce((sum, item) => sum + item.value, 0)
+  calculateTotal(field) {
+  const total = this.items.reduce((sum, item) => sum + item.value, 0);
+  if (total > 0 && total !== undefined) { localStorage.setItem(`total${field}`, total)};
+  return total;
   }
    display(field) {
     console.log(`${field}:`, this.items);
@@ -94,10 +98,10 @@ class Budget {
     this.expenses.addItem(description, value)
     }
     calculateIncome() {
-      return this.income.calculateTotal();
+      return this.income.calculateTotal('Income');
     }
     calculateExpenses() {
-      return this.expenses.calculateTotal();
+      return this.expenses.calculateTotal('Expense');
     }
     // Calculates the remaining budget of both income and expenses
     calculateRemainingBudget() {
@@ -105,22 +109,25 @@ class Budget {
     const totalExpenses = this.expenses.calculateTotal();
     return totalIncome - totalExpenses;
    }
-   displayFields() {
+    displayFields() {
     this.income.display('Income')
     this.expenses.display('Expenses')
     console.log('Remaining budget:', this.calculateRemainingBudget())
   }
 }
 
+  
   const myBudget = new Budget()
   let totalExpenses = myBudget.calculateExpenses()
   let totalIncome = myBudget.calculateIncome();
+  let incomeStorage = JSON.parse(localStorage.getItem('totalIncome'));
+  let expenseStorage = JSON.parse(localStorage.getItem('totalExpenses'));
   let remainingBudget = myBudget.calculateRemainingBudget();
   const data = {
   labels: ['Income', 'Expenses', 'Balance'],
   datasets: [{
     label: 'Budget',
-    data: [totalIncome, totalExpenses, remainingBudget],
+    data: [incomeStorage, expenseStorage, remainingBudget],
     backgroundColor: [
       'rgb(76, 175, 80)',
       'rgb(239, 108, 108)',
@@ -149,6 +156,7 @@ const options = {
     enabled: true
   }
 };
+console.log(incomeStorage)
 
   function handleSubmit(event) {
     event.preventDefault()
@@ -168,7 +176,11 @@ const options = {
     userDescription.value = '';
     userValue.value = '$';
 
-    createCards(field)
+
+    myBudget.calculateIncome();
+    myBudget.calculateExpenses();
+
+    createCards()
     updateChart()
 
     // Get instance of Modal, if it already exists then close after submitting.
@@ -180,37 +192,53 @@ const options = {
   }
   }
 
-  function createCards(field) {
-    const incomeDiv = document.getElementById('income-card-container');
-    const expensesDiv = document.getElementById('expense-card-container');
-    const incomeItems = myBudget.income.items
+  function createCards() {
+    const incomeItems = myBudget.income.items;
+    const latestIncome = myBudget.income.items[myBudget.income.items.length - 1];
     const expenseItems = myBudget.expenses.items
-  
+    const latestExpense = myBudget.expenses.items[myBudget.expenses.items.length - 1]
 
-    if (field === 'Income') {
+    let income = JSON.parse(localStorage.getItem('incomeItems')) || [];
+    let expense = JSON.parse(localStorage.getItem('expenseItems')) || [];
+
+    if (incomeItems && incomeItems.length > 0) {
+      income.push(latestIncome)
+      localStorage.setItem('incomeItems', JSON.stringify(income));
+      // localStorage.setItem('totalIncome', totalIncome)
+    } 
+    if (expenseItems && expenseItems.length > 0) {
+      expense.push(latestExpense)
+      localStorage.setItem('expenseItems', JSON.stringify(expense));
+      // localStorage.setItem('totalExpenses', totalExpenses)
+    }
+
+    if (income) {
       incomeDiv.innerHTML = '';
-      incomeItems.forEach((income) => {
+      income.forEach((income) => {
       incomeDiv.innerHTML += 
         `<div class="income-card-div">
          <p>${income.description}</p> <p class="income-value">+$${income.value}</p>
          </div>`
-    }
-    
-  );
-    } else if (field === 'Expenses'){
+    } 
+  )
+    if (expense) {
       expensesDiv.innerHTML = '';
-      expenseItems.forEach((expense) => {
+      expense.forEach((expense) => {
       expensesDiv.innerHTML += 
         `<div class="expense-card-div">
          <p>${expense.description}</p> <p class="expense-value">-$${expense.value}</p>
          </div>`
     });
-    }
   }
+} 
+updateChart();
+}
+
+
 
   function updateChart() {
-  const totalIncome = myBudget.calculateIncome();
-  const totalExpenses = myBudget.calculateExpenses();
+  const totalIncome = JSON.parse(localStorage.getItem('totalIncome')) || 0;
+  const totalExpenses = JSON.parse(localStorage.getItem('totalExpenses')) || 0; 
   const remainingBudget = myBudget.calculateRemainingBudget();
   let chartDataset = budgetChart.data.datasets[0]
 
@@ -227,3 +255,8 @@ const options = {
     data: data,
     options: options
   });
+
+if (localStorage.getItem('incomeItems') || localStorage.getItem('expenseItems')) {
+    createCards()
+    updateChart()
+}
